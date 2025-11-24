@@ -1,0 +1,3 @@
+*.pyc
+build/
+sim2real.egg-info/
