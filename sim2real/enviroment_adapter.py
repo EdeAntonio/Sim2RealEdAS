@@ -28,17 +28,16 @@ from pathlib import Path
 class EnviromentAdapter(ABC):
 
     state: data.EnvState
-
     dof_names= [
-        "l_shoulder_pan_joint", 
-        "l_shoulder_lift_joint", 
-        "l_elbow_joint", 
-        "l_wrist_1_joint", 
-        "l_wrist_2_joint",
-        "l_wrist_3_joint"
+        "shoulder_pan_joint", 
+        "shoulder_lift_joint", 
+        "elbow_joint", 
+        "wrist_1_joint", 
+        "wrist_2_joint",
+        "wrist_3_joint"
     ]
 
-    def __init__(self, action_scale : float, action_size: int, model_path: str, robot: IRobot, frecuency: int = 125 ):
+    def __init__(self, action_scale : float, action_size: int, model_path: str, robot: IRobot, frecuency: int = 125):
         self.controlador = PolicyController(self.dof_names)
         self.model_dir = Path(model_path)
         self.controlador.load_policy(
@@ -75,10 +74,13 @@ class EnviromentAdapter(ABC):
             self.robot._disconnect()
         self.obs = self._compute_observation()
         self.action: np.ndarray = self._compute_action(self.obs)
-        success = self.robot.send_action(self.action, self.state.robot)
+        procesed_action = self.action*self._action_scale + self.robot.default_pos
+        self._previous_action = self.action
+        success = self.robot.send_action(procesed_action, self.state.robot)
         if success == True :
             self._policy_counter += 1
             self._previous_action = self.action
+            success = False
             return 1
         else:
             print("Error inesperado en el paso.")

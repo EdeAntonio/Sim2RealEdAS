@@ -5,6 +5,21 @@
             "name": "Debug sim2real",
             "type": "debugpy",
             "request": "launch",
+            "module": "sim2real.reach_ur3_sim",
+            "justMyCode": false,
+            "console": "integratedTerminal",
+            "python": "/opt/miniconda/bin/python",
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}"
+            },
+            "args": [
+               "--policy_path", "/home/eantonio/Sim2Real/sim2real/policy_reach"
+            ]
+        },
+        {
+            "name": "Debug sim2real pull",
+            "type": "debugpy",
+            "request": "launch",
             "module": "sim2real.pull_object_ur5_sim",
             "justMyCode": false,
             "console": "integratedTerminal",
@@ -13,7 +28,7 @@
                 "PYTHONPATH": "${workspaceFolder}"
             },
             "args": [
-               "--policy_path", "/home/eantonio/Sim2Real/sim2real/Politica"
+               "--policy_path", "/home/eantonio/Sim2Real/sim2real/policy_pull_object"
             ]
         }
     ]
