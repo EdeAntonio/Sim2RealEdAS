@@ -15,6 +15,7 @@ class RobotState:
 @dataclass
 class UR5SimRobotState(RobotState):
     joint_position: np.ndarray
+    joint_position_real: np.ndarray
     joint_velocities: np.ndarray
     online: bool
 

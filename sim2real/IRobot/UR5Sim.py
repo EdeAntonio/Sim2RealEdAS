@@ -12,6 +12,7 @@ import rtde.rtde as rtde
 import rtde.rtde_config as rtde_config #instalación rtde pendiente
 
 import numpy as np
+import math
 
 from sim2real.IRobot.IRobot import IRobot
 from sim2real.utils.data import list_to_setp, UR5SimRobotState
@@ -26,7 +27,7 @@ class UR5Sim(IRobot):
         # Asignación de variables iniciales
         super().__init__(ip, port)
         self.default_pos = pos_init #actualizar con valor inicial. Ver en código original.
-        self.state= UR5SimRobotState(time= 0.0, joint_position=np.zeros(6), joint_velocities= np.zeros(6), online=False)
+        self.state= UR5SimRobotState(time= 0.0, joint_position_real=np.zeros(6), joint_position=np.zeros(6), joint_velocities= np.zeros(6), online=False)
         
         # Nombre del archivo con la configuración del RTDE
         self.config_filename = Path(__file__).parent / "UR5Sim_config.xml"
@@ -72,7 +73,7 @@ class UR5Sim(IRobot):
     # Función para actualizar el estado del robot
     def get_state(self) -> UR5SimRobotState:
         # Inicializamos la clase tipo
-        robotstate = UR5SimRobotState(joint_velocities=np.zeros(6), joint_position=np.zeros(6), online=False, time=0.0)
+        robotstate = UR5SimRobotState(joint_velocities=np.zeros(6), joint_position=np.zeros(6), joint_position_real=np.zeros(6), online=False, time=0.0)
         # Mandamos una actualización del estado
         self.state = self.con.receive()
         # Comprobamos la actualización
@@ -86,7 +87,12 @@ class UR5Sim(IRobot):
             robotstate.online = False
             self._disconnect()
             return robotstate
-        robotstate.joint_position= np.array(self.state.actual_q)
+        robotstate.joint_position_real= np.array(self.state.actual_q)
+        for i in range(len(robotstate.joint_position)):
+                robotstate.joint_position[i] =(robotstate.joint_position_real[i]+math.pi)%(2*math.pi)-math.pi
+        #print("INICIO")
+        #print(robotstate.joint_position_real)
+        #print(robotstate.joint_position)
         robotstate.joint_velocities = np.array(self.state.actual_qd)
         robotstate.online = True
         # Entregamos el estado
@@ -102,6 +108,11 @@ class UR5Sim(IRobot):
         else:
             self.watchdog.input_int_register_0 = 1
             self.con.send(self.watchdog)
+            #print(joint_pos)
+            for i in range(len(joint_pos)):
+                diff= (joint_pos[i] - robotstate.joint_position_real[i] + math.pi) % (2*math.pi) - math.pi
+                joint_pos[i]=robotstate.joint_position_real[i]+diff
+            #print(joint_pos)
             list_to_setp(self.setp, joint_pos)
             return self.con.send(self.setp)
         
