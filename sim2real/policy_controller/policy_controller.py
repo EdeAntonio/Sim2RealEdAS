@@ -25,7 +25,7 @@ import io
 import numpy as np
 import torch
 
-from ..utils.config_loader import parse_env_config, get_physics_properties, get_robot_joint_properties
+from sim2real.utils.config_loader import parse_env_config, get_physics_properties, get_robot_joint_properties
 
 class PolicyController:
     """A controller that loads and executes a policy from a file."""

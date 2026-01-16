@@ -3,7 +3,7 @@ import numpy as np
 
 
 # Carga la política TorchScript
-policy = torch.jit.load("sim2real/policy_reach/policy.pt")
+policy = torch.jit.load("sim2real/policy_reach_2/policy.pt")
 policy.eval()
 
 # Función de prueba con observación
@@ -19,10 +19,16 @@ def compute_action(obs_vector):
 
 # Ejemplo de observación (25 elementos)
 obs = np.zeros(25, dtype=np.float32)
-obs = [-0.1999,  0.3610, -0.2749, -0.3335,  0.3876, -0.4189, -3.1416,  1.3067,
-         -2.1414, -2.8259,  3.9405, -6.2832,  0.3189, -0.0694,  0.1630,  0.6991,
-         -0.1062,  0.6991,  0.1062, -2.0364,  0.8478, -0.7478, -0.9435,  1.1659,
-         -2.4172]
+obs = [
+  0.312015653, 0.382867128, -0.168602541, -0.190106869,
+  -0.155088425, -0.831667781, 0.0, 0.0,
+  3.14989448, -1.15238678, 1.42854726, 0.289501637,
+  -0.723364532, -4.60720015, 0.0, 0.0,
+  0.164799616, -0.33471638, 0.212969497, -4.35871534e-08,
+  0.997157812, 0.0753410608, -3.29326233e-09, 1.17599821,
+  0.682768047, -0.172180608, -0.36113292, -0.394739419,
+  -3.66745067, 3.14088202, -1.27364612
+]
 
 # Obtener acción
 action = compute_action(obs)

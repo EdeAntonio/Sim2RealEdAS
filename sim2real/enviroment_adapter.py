@@ -19,7 +19,7 @@ import numpy as np
 
 from abc import ABC, abstractmethod
 
-from sim2real.PolicyController.policy_controller import PolicyController
+from sim2real.policy_controller.policy_controller import PolicyController
 from sim2real.utils import data
 from sim2real.IRobot.IRobot import IRobot
 
