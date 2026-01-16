@@ -1,0 +1,44 @@
+v = 0.25
+a = 0.5
+pose_init = [-1.57, -1.744, 1.57, -1.573, -1.573, -1.923]
+global ready = False
+write_output_integer_register(0, 0)
+
+def inicio():
+    global joints =  pose_init
+    movej(joints, a, v)
+    ready = True
+    global flag = False
+    write_output_integer_register(0, 1)
+end
+
+def updateActionRTDE():
+    global action = [-1.57, -1.744, 1.57, -1.573, -1.573, -1.923]
+    i=0
+    while i<6:
+        action[i] = read_input_float_register(i)
+        i = i + 1
+    end
+    return action
+end
+
+# Definicion del programa principal.
+def main_program():
+    while ready == False or get_digital_out(2) == False or read_input_integer_register(0) == 0:
+        if(ready == False):
+            inicio()
+        else:
+            sync()
+        end
+    end
+    while get_digital_out(2) == True and read_input_integer_register(0) == 1:
+        sync()
+        global flag = True
+        joints = updateActionRTDE()
+        servoj(joints, t=0.01, gain=20)
+    end
+    write_output_integer_register(0, 0)
+    sync()
+end
+
+main_program()
