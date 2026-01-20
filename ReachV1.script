@@ -38,7 +38,7 @@ def main_program():
         sync()
         global flag = True
         joints = updateActionRTDE()
-        servoj(joints, t=0.01, lookahead_time=0.3, gain=200)
+        servoj(joints, t=0.008, lookahead_time=0.05, gain=300)
     end
     write_output_integer_register(0, 0)
     sync()

@@ -28,7 +28,10 @@ class UR5Sim(IRobot):
         super().__init__(ip, port)
         self.default_pos = pos_init #actualizar con valor inicial. Ver en código original.
         self.state= UR5SimRobotState(time= 0.0, joint_position_real=np.zeros(6), joint_position=np.zeros(6), joint_velocities= np.zeros(6), online=False)
+        self.max_step_d = 1 #OJOOOOOO cuidado maricarmen, controla la velocidad del robot por interpolacion
+        self.dt=1/125
         
+
         # Nombre del archivo con la configuración del RTDE
         self.config_filename = Path(__file__).parent / "UR5Sim_config.xml"
 
@@ -113,6 +116,14 @@ class UR5Sim(IRobot):
                 diff= (joint_pos[i] - robotstate.joint_position_real[i] + math.pi) % (2*math.pi) - math.pi
                 joint_pos[i]=robotstate.joint_position_real[i]+diff
             #print(joint_pos)
+            # interpolacion
+            step=np.zeros_like(joint_pos)
+            for i in range(len(joint_pos)):
+                delta_q=joint_pos[i]- robotstate.joint_position_real[i]
+                max_step= self.max_step_d*self.dt
+                step[i]=np.clip(delta_q, -max_step, max_step)
+                joint_pos[i]=robotstate.joint_position_real[i]+ step[i]
+
             list_to_setp(self.setp, joint_pos)
             return self.con.send(self.setp)
         
