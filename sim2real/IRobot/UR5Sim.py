@@ -109,10 +109,10 @@ class UR5Sim(IRobot):
             self.watchdog.input_int_register_0 = 1
             self.con.send(self.watchdog)
             #print(joint_pos)
-            #for i in range(len(joint_pos)):
-            #    diff= (joint_pos[i] - robotstate.joint_position_real[i] + math.pi) % (2*math.pi) - math.pi
-            #    joint_pos[i]=robotstate.joint_position_real[i]+diff
-            #print(joint_pos)
+            for i in range(len(joint_pos)):
+                diff= (joint_pos[i] - robotstate.joint_position_real[i] + math.pi) % (2*math.pi) - math.pi
+                joint_pos[i]=robotstate.joint_position_real[i]+diff
+            print(joint_pos)
             list_to_setp(self.setp, joint_pos)
             return self.con.send(self.setp)
         
