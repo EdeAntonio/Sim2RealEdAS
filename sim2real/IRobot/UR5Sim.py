@@ -122,7 +122,7 @@ class UR5Sim(IRobot):
                 max_step= self.max_step_d*self.dt
                 step[i]=np.clip(delta_q, -max_step, max_step)
                 joint_pos[i]=robotstate.joint_position_real[i]+ step[i]
-            print(joint_pos)
+            #print(joint_pos)
             list_to_setp(self.setp, joint_pos)
             return self.con.send(self.setp)
         

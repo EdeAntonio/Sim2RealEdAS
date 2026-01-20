@@ -33,7 +33,7 @@ class ReachUR3Sim (EnviromentAdapter):
     ]
 
     def __init__(self):
-        super().__init__(action_scale = 0.5, action_size = 6, model_path=args.policy_path, robot = UR5Sim("192.168.1.140", 30004, pos_init=[1.57, -1.744, 1.57, -1.573, -1.573, -1.923]))
+        super().__init__(action_scale = 0.5, action_size = 6, model_path=args.policy_path, robot = UR5Sim("192.168.1.102", 30004, pos_init=[1.57, -1.744, 1.57, -1.573, -1.573, -1.923]))
         self.default_pos: np.ndarray = self.robot.default_pos
         self.mode = 1
         self.state = EnvState(robot = None, object_pos= None, tool_pos= None)

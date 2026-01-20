@@ -36,7 +36,12 @@ def main_program():
         sync()
         global flag = True
         joints = updateActionRTDE()
-
+        movej(joints, 1, 0.5)
+        pose=get_actual_tcp_pose()
+        rpy=rotvec2rpy([pose[3], pose[4], pose[5]])
+        global roll = rpy[1]
+        global pitch = rpy[2]
+        global yaw = rpy[3]
     end
     write_output_integer_register(0, 0)
     sync()
