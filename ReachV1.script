@@ -17,9 +17,7 @@ def updateActionRTDE():
     i=0
     q= get_actual_joint_positions()
     while i<6:
-        target = read_input_float_register(i)
-        diff= (target - q[i] + 3.1416) % (2*3.1416) - 3.1416
-        action[i]=target+diff
+        action[i] = read_input_float_register(i)
         i = i + 1
     end
     return action
@@ -38,7 +36,7 @@ def main_program():
         sync()
         global flag = True
         joints = updateActionRTDE()
-        servoj(joints, t=0.008, lookahead_time=0.05, gain=300)
+
     end
     write_output_integer_register(0, 0)
     sync()

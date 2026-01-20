@@ -115,7 +115,6 @@ class UR5Sim(IRobot):
             for i in range(len(joint_pos)):
                 diff= (joint_pos[i] - robotstate.joint_position_real[i] + math.pi) % (2*math.pi) - math.pi
                 joint_pos[i]=robotstate.joint_position_real[i]+diff
-            #print(joint_pos)
             # interpolacion
             step=np.zeros_like(joint_pos)
             for i in range(len(joint_pos)):
@@ -123,7 +122,7 @@ class UR5Sim(IRobot):
                 max_step= self.max_step_d*self.dt
                 step[i]=np.clip(delta_q, -max_step, max_step)
                 joint_pos[i]=robotstate.joint_position_real[i]+ step[i]
-
+            print(joint_pos)
             list_to_setp(self.setp, joint_pos)
             return self.con.send(self.setp)
         
