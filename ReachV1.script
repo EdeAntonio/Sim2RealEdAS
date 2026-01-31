@@ -36,7 +36,7 @@ def main_program():
         sync()
         global flag = True
         joints = updateActionRTDE()
-        movej(joints, 1, 0.5)
+        servoj(joints, t=0.008, lookahead_time=0.1, gain=200)
         pose=get_actual_tcp_pose()
         rpy=rotvec2rpy([pose[3], pose[4], pose[5]])
         global roll = rpy[1]
