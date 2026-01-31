@@ -10,7 +10,7 @@ import numpy as np
 from sim2real.enviroment_adapter import EnviromentAdapter 
 
 from sim2real.ObservationHub.sensor_hub import SensorHub
-from sim2real.IRobot.UR5Sim import UR5Sim
+from sim2real.IRobot.UR3Sim import UR5Sim
 from sim2real.utils.data import EnvState
 
 import time
@@ -22,7 +22,7 @@ parser.add_argument("--policy_path", type=str, default=None, help="Direccion de 
 parser.add_argument("--target", type=list[float], default=None, help="Cuaternio para el objetivo de alcance")
 args  = parser.parse_args()
 
-class POTUR5Sim (EnviromentAdapter):
+class POTUR3Sim (EnviromentAdapter):
     dof_names= [
         "l_shoulder_pan_joint", 
         "l_shoulder_lift_joint", 

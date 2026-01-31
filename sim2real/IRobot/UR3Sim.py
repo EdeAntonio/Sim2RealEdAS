@@ -33,7 +33,7 @@ class UR5Sim(IRobot):
         
 
         # Nombre del archivo con la configuración del RTDE
-        self.config_filename = Path(__file__).parent / "UR5Sim_config.xml"
+        self.config_filename = Path(__file__).parent / "UR3Sim_config.xml"
 
         # Extracción de valores relevantes del fichero
         self.conf = rtde_config.ConfigFile(self.config_filename)

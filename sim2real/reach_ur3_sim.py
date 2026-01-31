@@ -10,7 +10,7 @@ import numpy as np
 from sim2real.enviroment_adapter import EnviromentAdapter 
 
 from sim2real.ObservationHub.sensor_hub import SensorHub
-from sim2real.IRobot.UR5Sim import UR5Sim
+from sim2real.IRobot.UR3Sim import UR5Sim
 from sim2real.utils.data import EnvState
 
 import time
